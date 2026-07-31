@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>English Study</title>
+
+    <link rel="stylesheet"
+          href="style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+
+        <h1>📘 English Study</h1>
+
+        <p>영어 문장 암기</p>
+
+    </header>
+
+    <section class="top-menu">
+
+        <input
+            type="date"
+            id="studyDate">
+
+        <button id="saveBtn">
+
+            💾 저장
+
+        </button>
+
+        <button id="loadBtn">
+
+            📂 불러오기
+
+        </button>
+
+    </section>
+
+    <section class="study-card">
+
+        <div id="english"
+             class="english">
+
+            Hello.
+
+        </div>
+
+        <div id="korean"
+             class="korean">
+
+            안녕하세요.
+
+        </div>
+
+    </section>
+
+    <section class="button-area">
+
+        <button id="ttsBtn">
+
+            🔊 듣기
+
+        </button>
+
+        <button id="repeatBtn">
+
+            🔁 반복
+
+        </button>
+
+        <button id="randomBtn">
+
+            🎲 랜덤
+
+        </button>
+
+    </section>
+
+    <section class="button-area">
+
+        <button id="hideEng">
+
+            🇺🇸 영어 숨기기
+
+        </button>
+
+        <button id="hideKor">
+
+            🇰🇷 한국어 숨기기
+
+        </button>
+
+    </section>
+
+    <section class="button-area">
+
+        <button id="prevBtn">
+
+            ◀ 이전
+
+        </button>
+
+        <button id="nextBtn">
+
+            ▶ 다음
+
+        </button>
+
+    </section>
+
+    <section class="progress-area">
+
+        <div class="progress">
+
+            <div id="progressBar"></div>
+
+        </div>
+
+        <p id="progressText">
+
+            0 / 0
+
+        </p>
+
+    </section>
+
+    <section class="favorite">
+
+        ⭐ 즐겨찾기
+
+    </section>
+
+    <section class="review">
+
+        📅 오늘의 복습
+
+    </section>
+
+    <section class="input-area">
+
+<textarea id="sentenceInput"
+placeholder="예시
+
+Hello.|안녕하세요.
+How are you?|잘 지내세요?
+I love English.|저는 영어를 좋아합니다.
+"></textarea>
+
+    </section>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

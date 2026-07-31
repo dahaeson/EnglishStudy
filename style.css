@@ -1,0 +1,314 @@
+/* ===== 기본 설정 ===== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    background:#eef3f9;
+
+    font-family:
+    "Segoe UI",
+    "Malgun Gothic",
+    sans-serif;
+
+    color:#333;
+
+    padding:30px;
+
+}
+
+/* ===== 전체 영역 ===== */
+
+.container{
+
+    max-width:900px;
+
+    margin:auto;
+
+}
+
+/* ===== 제목 ===== */
+
+header{
+
+    text-align:center;
+
+    margin-bottom:30px;
+
+}
+
+header h1{
+
+    font-size:40px;
+
+    color:#2563eb;
+
+    margin-bottom:10px;
+
+}
+
+header p{
+
+    color:#64748b;
+
+    font-size:18px;
+
+}
+
+/* ===== 날짜 ===== */
+
+.top-menu{
+
+    display:flex;
+
+    gap:10px;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    margin-bottom:25px;
+
+}
+
+.top-menu input{
+
+    padding:12px;
+
+    border-radius:12px;
+
+    border:1px solid #ddd;
+
+    font-size:16px;
+
+}
+
+/* ===== 카드 ===== */
+
+.study-card{
+
+    background:white;
+
+    border-radius:25px;
+
+    padding:50px;
+
+    text-align:center;
+
+    box-shadow:
+
+    0 15px 35px
+
+    rgba(0,0,0,.08);
+
+}
+
+/* ===== 영어 ===== */
+
+.english{
+
+    font-size:42px;
+
+    font-weight:bold;
+
+    color:#1e293b;
+
+    margin-bottom:30px;
+
+}
+
+/* ===== 한국어 ===== */
+
+.korean{
+
+    font-size:24px;
+
+    color:#64748b;
+
+}
+
+/* ===== 버튼 ===== */
+
+.button-area{
+
+    margin-top:25px;
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+}
+
+button{
+
+    background:#2563eb;
+
+    color:white;
+
+    border:none;
+
+    border-radius:14px;
+
+    padding:14px 22px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    transition:.2s;
+
+}
+
+/* 버튼 효과 */
+
+button:hover{
+
+    transform:translateY(-2px);
+
+    background:#1d4ed8;
+
+}
+
+/* ===== 진행률 ===== */
+
+.progress-area{
+
+    margin-top:35px;
+
+}
+
+.progress{
+
+    width:100%;
+
+    height:12px;
+
+    background:#dbeafe;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+}
+
+#progressBar{
+
+    width:20%;
+
+    height:100%;
+
+    background:#2563eb;
+
+}
+
+#progressText{
+
+    margin-top:10px;
+
+    text-align:center;
+
+}
+
+/* ===== 즐겨찾기 ===== */
+
+.favorite{
+
+    margin-top:25px;
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:15px;
+
+    box-shadow:
+
+    0 5px 15px
+
+    rgba(0,0,0,.05);
+
+}
+
+/* ===== 오늘의 복습 ===== */
+
+.review{
+
+    margin-top:20px;
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:15px;
+
+    box-shadow:
+
+    0 5px 15px
+
+    rgba(0,0,0,.05);
+
+}
+
+/* ===== 입력창 ===== */
+
+.input-area{
+
+    margin-top:30px;
+
+}
+
+textarea{
+
+    width:100%;
+
+    height:180px;
+
+    border-radius:15px;
+
+    border:1px solid #ddd;
+
+    padding:20px;
+
+    resize:vertical;
+
+    font-size:16px;
+
+}
+
+/* ===== 모바일 ===== */
+
+@media(max-width:700px){
+
+    .english{
+
+        font-size:30px;
+
+    }
+
+    .korean{
+
+        font-size:18px;
+
+    }
+
+    header h1{
+
+        font-size:30px;
+
+    }
+
+    .study-card{
+
+        padding:30px;
+
+    }
+
+}
