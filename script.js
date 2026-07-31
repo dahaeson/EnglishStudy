@@ -159,36 +159,42 @@ document
 
 // TTS
 
-document
-.getElementById("ttsBtn")
-.onclick=function(){
+function speakEnglish(text) {
 
-    const speech =
-    new SpeechSynthesisUtterance(
-        sentences[currentIndex].en
-    );
+    speechSynthesis.cancel();
 
-    speech.lang="en-US";
+    const utter = new SpeechSynthesisUtterance(text);
 
-    speech.rate=0.9;
+    const voices = speechSynthesis.getVoices();
 
-    speech.pitch=1;
+    console.log(voices); // 확인용
 
-    speechSynthesis.speak(speech);
+    // 가장 좋은 영어 음성 찾기
+    let voice =
+        voices.find(v => v.name.includes("Jenny")) ||
+        voices.find(v => v.name.includes("Aria")) ||
+        voices.find(v => v.name.includes("Google US English")) ||
+        voices.find(v => v.lang === "en-US") ||
+        voices.find(v => v.lang.startsWith("en"));
 
-};
+    if (voice) {
+        utter.voice = voice;
+        console.log("사용 음성:", voice.name);
+    }
+
+    utter.lang = "en-US";
+    utter.rate = 0.9;
+    utter.pitch = 1;
+
+    speechSynthesis.speak(utter);
+}
 
 
 // 저장 버튼을 누르면 입력창 읽기
 
-document
-.getElementById("saveBtn")
-.onclick=function(){
-
-    loadInput();
-
+document.getElementById("ttsBtn").onclick = () => {
+    speakEnglish(sentences[currentIndex].en);
 };
-
 
 // 시작
 
