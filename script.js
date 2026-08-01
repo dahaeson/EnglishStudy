@@ -58,46 +58,71 @@ function randomSentence(){
     displaySentence();
 }
 
+// 음성 목록을 미리 저장할 변수
+let availableVoices = [];
+
+// 브라우저가 음성 목록을 로드했을 때 저장
+function loadVoices() {
+    availableVoices = speechSynthesis.getVoices();
+}
+
+// 음성 로드 이벤트 등록 (Chrome, Safari 등 대응)
+speechSynthesis.onvoiceschanged = function() {
+    loadVoices();
+    displaySentence();
+};
+
+// 즉시 실행도 시도 (이미 로드된 경우 대응)
+loadVoices();
+
 function speakSentence() {
-
     const text = document.getElementById("sentence").textContent;
-
     if (!text) return;
 
-    speechSynthesis.cancel();
+    speechSynthesis.cancel(); // 이전 재생 중단
+
+    // 최신 음성 목록 재확인
+    if (availableVoices.length === 0) {
+        availableVoices = speechSynthesis.getVoices();
+    }
 
     const utterance = new SpeechSynthesisUtterance(text);
 
-    const voices = speechSynthesis.getVoices();
-
-    // 1. 영어 음성만 추출 ("ja" -> "en"으로 수정)
-    const englishVoices = voices.filter(
-        voice => voice.lang.startsWith("en")
+    // 1. 영어(en) 음성 필터링 (대소문자 구분 없이 처리)
+    const englishVoices = availableVoices.filter(
+        voice => voice.lang.toLowerCase().startsWith("en")
     );
 
     console.log("영어 음성 목록:", englishVoices);
 
-    // 2. 여성 영어 음성(Samantha, Google US English 등) 우선 선택
-    let selectedVoice =
-        englishVoices.find(v =>
-            v.name.toLowerCase().includes("female")
-        ) ||
-        englishVoices.find(v =>
-            v.name.includes("Samantha") || 
-            v.name.includes("Google US English") || 
-            v.name.includes("Karen") || 
-            v.name.includes("Victoria")
-        ) ||
-        englishVoices[0]; // 조건에 맞는 음성이 없으면 첫 번째 영어 음성 사용
+    // 2. 우선순위에 따라 영어 음성 지정
+    let selectedVoice = null;
 
-    if (selectedVoice) {
-        utterance.voice = selectedVoice;
+    if (englishVoices.length > 0) {
+        selectedVoice =
+            englishVoices.find(v => v.name.toLowerCase().includes("female")) ||
+            englishVoices.find(v =>
+                v.name.includes("Samantha") ||
+                v.name.includes("Google US English") ||
+                v.name.includes("Karen") ||
+                v.name.includes("Victoria")
+            ) ||
+            englishVoices[0];
+    } else if (availableVoices.length > 0) {
+        // 영어 전용 음성이 없으면 언어 코드가 en으로 지정된 아무 음성이나 선택
+        selectedVoice = availableVoices.find(v => v.lang.includes("en"));
     }
 
-    // 3. 언어 설정을 일본어(ja-JP)에서 미국 영어(en-US)로 수정
-    utterance.lang = "en-US";
+    // 3. 음성 및 언어 강제 지정
+    if (selectedVoice) {
+        utterance.voice = selectedVoice;
+        utterance.lang = selectedVoice.lang; // 선택된 음성의 언어 코드 사용
+    } else {
+        utterance.lang = "en-US"; // 음성 개체를 못 찾아도 언어 속성을 미국 영어로 강제
+    }
+
     utterance.rate = 0.95;
-    utterance.pitch = 1.3; // 여성 느낌을 내기 위해 피치를 유지
+    utterance.pitch = 1.0; // 여성/남성 호환성을 위해 1.0 권장 (필요시 조절)
 
     speechSynthesis.speak(utterance);
 }
