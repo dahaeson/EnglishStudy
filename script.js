@@ -220,9 +220,6 @@ function deleteSentence(index) {
   displaySentence();
 }
 
-  renderList();
-  displaySentence();
-}
 
 // 10. 문장 전체 삭제
 function deleteAllSentences() {
