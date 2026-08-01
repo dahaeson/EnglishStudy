@@ -1,168 +1,135 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>English Study</title>
 
-    <link rel="stylesheet"
-          href="style.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
 
+    <!-- XLSX 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 </head>
 
 <body>
 
 <div class="container">
 
-    <header>
+    <!-- =========================
+            HEADER
+    ========================== -->
 
-        <h1>📘 English Study</h1>
+    <header class="header">
+
+        <h1>📗 English Study</h1>
 
         <p>영어 문장 암기</p>
 
     </header>
 
-    <section class="top-menu">
+    <!-- =========================
+            DATE
+    ========================== -->
+
+    <section class="date-box">
+
+        <label>📅 날짜</label>
 
         <input
             type="date"
             id="studyDate">
 
-        <button id="saveBtn">
+    </section>
 
-            💾 저장
+    <!-- =========================
+            INPUT
+    ========================== -->
 
-        </button>
+    <section class="input-card">
 
-        <button id="loadBtn">
+        <h2>영어 문장</h2>
 
-            📂 불러오기
+        <textarea
+            id="englishInput"
+            placeholder="예) I have to study."></textarea>
+
+        <h2>한국어 뜻</h2>
+
+        <textarea
+            id="koreanInput"
+            placeholder="예) 나는 공부해야 한다."></textarea>
+
+        <button
+            id="addSentenceBtn">
+
+            ➕ 문장 추가
 
         </button>
 
     </section>
 
+    <!-- =========================
+            XLSX
+    ========================== -->
+
+    <section class="upload-card">
+
+        <h2>📂 Excel 업로드</h2>
+
+        <input
+            type="file"
+            id="excelFile"
+            accept=".xlsx">
+
+    </section>
+
+    <!-- =========================
+            VOICE
+    ========================== -->
+
+    <section class="voice-card">
+
+        <h2>🎙 영어 음성</h2>
+
+        <select id="voiceSelect">
+
+            <option value="usFemale">
+
+                🇺🇸 미국 여자
+
+            </option>
+
+            <option value="ukFemale">
+
+                🇬🇧 영국 여자
+
+            </option>
+
+        </select>
+
+    </section>
+
+    <!-- =========================
+            STUDY CARD
+    ========================== -->
+
     <section class="study-card">
 
-        <div id="english"
-             class="english">
+        <div
+            id="englishSentence"
+            class="english">
 
             Hello.
 
         </div>
 
-        <div id="korean"
-             class="korean">
+        <div
+            id="koreanSentence"
+            class="korean">
 
             안녕하세요.
 
         </div>
 
     </section>
-
-    <section class="button-area">
-
-        <button id="ttsBtn">
-
-            🔊 듣기
-
-        </button>
-
-        <button id="repeatBtn">
-
-            🔁 반복
-
-        </button>
-
-        <button id="randomBtn">
-
-            🎲 랜덤
-
-        </button>
-
-    </section>
-
-    <section class="button-area">
-
-        <button id="hideEng">
-
-            🇺🇸 영어 숨기기
-
-        </button>
-
-        <button id="hideKor">
-
-            🇰🇷 한국어 숨기기
-
-        </button>
-
-    </section>
-
-    <section class="button-area">
-
-        <button id="prevBtn">
-
-            ◀ 이전
-
-        </button>
-
-        <button id="nextBtn">
-
-            ▶ 다음
-
-        </button>
-
-    </section>
-
-    <section class="progress-area">
-
-        <div class="progress">
-
-            <div id="progressBar"></div>
-
-        </div>
-
-        <p id="progressText">
-
-            0 / 0
-
-        </p>
-
-    </section>
-
-    <section class="favorite">
-
-        ⭐ 즐겨찾기
-
-    </section>
-
-    <section class="review">
-
-        📅 오늘의 복습
-
-    </section>
-
-    <section class="input-area">
-
-<textarea id="sentenceInput"
-placeholder="예시
-
-Hello.|안녕하세요.
-How are you?|잘 지내세요?
-I love English.|저는 영어를 좋아합니다.
-"></textarea>
-
-    </section>
-
-</div>
-
-<script src="script.js"></script>
-
-</body>
-
-</html>
