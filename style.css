@@ -1,4 +1,6 @@
-/* ===== 기본 설정 ===== */
+/* =========================
+   기본 설정
+========================= */
 
 *{
     margin:0;
@@ -15,13 +17,16 @@ body{
     "Malgun Gothic",
     sans-serif;
 
-    color:#333;
+    color:#2F4F3E;
 
-    padding:30px;
+    padding:25px;
 
 }
 
-/* ===== 전체 영역 ===== */
+
+/* =========================
+   컨테이너
+========================= */
 
 .container{
 
@@ -31,83 +36,214 @@ body{
 
 }
 
-/* ===== 제목 ===== */
 
-header{
+/* =========================
+   HEADER
+========================= */
+
+.header{
 
     text-align:center;
-
-    margin-bottom:30px;
-
-}
-
-header h1{
-
-    font-size:40px;
-
-    color:#2F6F4F;
-
-    margin-bottom:10px;
-
-}
-
-header p{
-
-    color:#64748b;
-
-    font-size:18px;
-
-}
-
-/* ===== 날짜 ===== */
-
-.top-menu{
-
-    display:flex;
-
-    gap:10px;
-
-    justify-content:center;
-
-    flex-wrap:wrap;
 
     margin-bottom:25px;
 
 }
 
-.top-menu input{
+.header h1{
+
+    color:#2F6F4F;
+
+    font-size:40px;
+
+    margin-bottom:8px;
+
+}
+
+.header p{
+
+    color:#6B7D73;
+
+    font-size:18px;
+
+}
+
+
+/* =========================
+   카드 공통
+========================= */
+
+.date-box,
+.input-card,
+.upload-card,
+.voice-card,
+.study-card{
+
+    background:white;
+
+    border-radius:22px;
+
+    padding:25px;
+
+    margin-bottom:20px;
+
+    box-shadow:
+
+    0 8px 20px rgba(0,0,0,.06);
+
+}
+
+
+/* =========================
+   제목
+========================= */
+
+h2{
+
+    margin-bottom:12px;
+
+    color:#2F6F4F;
+
+}
+
+
+/* =========================
+   날짜
+========================= */
+
+.date-box input{
+
+    width:100%;
 
     padding:12px;
 
     border-radius:12px;
 
-    border:1px solid #ddd;
+    border:1px solid #DCE8DF;
 
     font-size:16px;
 
 }
 
-/* ===== 카드 ===== */
 
-.study-card{
+/* =========================
+   textarea
+========================= */
 
-    background:white;
+textarea{
 
-    border-radius:25px;
+    width:100%;
 
-    padding:50px;
+    height:100px;
 
-    text-align:center;
+    padding:15px;
 
-    box-shadow:
+    font-size:17px;
 
-    0 15px 35px
+    border-radius:15px;
 
-    rgba(0,0,0,.08);
+    border:1px solid #DCE8DF;
+
+    resize:vertical;
+
+    margin-bottom:20px;
 
 }
 
-/* ===== 영어 ===== */
+textarea:focus{
+
+    outline:none;
+
+    border-color:#7BCB8E;
+
+}
+
+
+/* =========================
+   버튼
+========================= */
+
+button{
+
+    width:100%;
+
+    padding:15px;
+
+    background:#7BCB8E;
+
+    color:white;
+
+    font-size:18px;
+
+    border:none;
+
+    border-radius:15px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+button:hover{
+
+    background:#66B67A;
+
+    transform:translateY(-2px);
+
+}
+
+/* =========================
+   파일 업로드
+========================= */
+
+input[type=file]{
+
+    width:100%;
+
+    padding:12px;
+
+}
+
+
+/* =========================
+   음성 선택
+========================= */
+
+select{
+
+    width:100%;
+
+    padding:12px;
+
+    font-size:17px;
+
+    border-radius:12px;
+
+    border:1px solid #DCE8DF;
+
+}
+
+
+/* =========================
+   학습 카드
+========================= */
+
+.study-card{
+
+    text-align:center;
+
+    min-height:220px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+}
+
+
+/* 영어 */
 
 .english{
 
@@ -115,177 +251,41 @@ header p{
 
     font-weight:bold;
 
-    color:#1e293b;
+    color:#2F4F3E;
 
-    margin-bottom:30px;
+    margin-bottom:25px;
 
 }
 
-/* ===== 한국어 ===== */
+
+/* 한국어 */
 
 .korean{
 
     font-size:24px;
 
-    color:#64748b;
+    color:#6B7D73;
 
 }
 
-/* ===== 버튼 ===== */
 
-.button-area{
-
-    margin-top:25px;
-
-    display:flex;
-
-    justify-content:center;
-
-    flex-wrap:wrap;
-
-    gap:10px;
-
-}
-
-button{
-
-    background:#6FCF97;
-
-    color:white;
-
-    border:none;
-
-    border-radius:14px;
-
-    padding:14px 22px;
-
-    cursor:pointer;
-
-    font-size:16px;
-
-    transition:.2s;
-
-}
-
-/* 버튼 효과 */
-
-button:hover{
-
-    transform:translateY(-2px);
-
-    background:#58B884;
-
-}
-
-/* ===== 진행률 ===== */
-
-.progress-area{
-
-    margin-top:35px;
-
-}
-
-.progress{
-
-    width:100%;
-
-    height:12px;
-
-   background:#DFF5E8;
-
-    border-radius:30px;
-
-    overflow:hidden;
-
-}
-
-#progressBar{
-
-    width:20%;
-
-    height:100%;
-
-    background:#6FCF97;
-
-}
-
-#progressText{
-
-    margin-top:10px;
-
-    text-align:center;
-
-}
-
-/* ===== 즐겨찾기 ===== */
-
-.favorite{
-
-    margin-top:25px;
-
-    background:white;
-
-    padding:20px;
-
-    border-radius:15px;
-
-    box-shadow:
-
-    0 5px 15px
-
-    rgba(0,0,0,.05);
-
-}
-
-/* ===== 오늘의 복습 ===== */
-
-.review{
-
-    margin-top:20px;
-
-    background:white;
-
-    padding:20px;
-
-    border-radius:15px;
-
-    box-shadow:
-
-    0 5px 15px
-
-    rgba(0,0,0,.05);
-
-}
-
-/* ===== 입력창 ===== */
-
-.input-area{
-
-    margin-top:30px;
-
-}
-
-textarea{
-
-    width:100%;
-
-    height:180px;
-
-    border-radius:15px;
-
-    border:1px solid #ddd;
-
-    padding:20px;
-
-    resize:vertical;
-
-    font-size:16px;
-
-}
-
-/* ===== 모바일 ===== */
+/* =========================
+   모바일
+========================= */
 
 @media(max-width:700px){
+
+    body{
+
+        padding:15px;
+
+    }
+
+    .header h1{
+
+        font-size:30px;
+
+    }
 
     .english{
 
@@ -295,19 +295,7 @@ textarea{
 
     .korean{
 
-        font-size:18px;
-
-    }
-
-    header h1{
-
-        font-size:30px;
-
-    }
-
-    .study-card{
-
-        padding:30px;
+        font-size:19px;
 
     }
 
