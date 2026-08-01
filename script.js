@@ -17,26 +17,34 @@ const defaultSentences = [
 // 브라우저 저장소(localStorage)에서 불러오고, 없으면 기본 데이터 사용
 let sentences = JSON.parse(localStorage.getItem("mySentences")) || defaultSentences;
 
-// 데이터를 저장소에 보관하는 전용 함수 추가
+// 데이터를 저장소에 보관하는 전용 함수
 function saveToStorage() {
   localStorage.setItem("mySentences", JSON.stringify(sentences));
 }
+
 let currentIndex = 0;
 let availableVoices = [];
 
-// 1. 초기화 함수
+// 1. 초기화 함수 (DOM 로드 후 안전하게 이벤트 등록)
 function init() {
-  loadVoices(); // 음성 로드 시도
+  loadVoices();
   renderList();
   displaySentence();
-  
-  // 버튼 이벤트 리스너 등록
-  document.getElementById("nextBtn").addEventListener("click", nextSentence);
-  document.getElementById("randomBtn").addEventListener("click", randomSentence);
-  document.getElementById("speakBtn").addEventListener("click", speakSentence);
-  document.getElementById("addBtn").addEventListener("click", addSentence);
-  document.getElementById("importBtn").addEventListener("click", importCSV);
-  document.getElementById("deleteAllBtn").addEventListener("click", deleteAllSentences);
+
+  // 이벤트 리스너 안전 등록 (요소가 존재할 때만 연결)
+  const nextBtn = document.getElementById("nextBtn");
+  const randomBtn = document.getElementById("randomBtn");
+  const speakBtn = document.getElementById("speakBtn");
+  const addBtn = document.getElementById("addBtn");
+  const importBtn = document.getElementById("importBtn");
+  const deleteAllBtn = document.getElementById("deleteAllBtn");
+
+  if (nextBtn) nextBtn.onclick = nextSentence;
+  if (randomBtn) randomBtn.onclick = randomSentence;
+  if (speakBtn) speakBtn.onclick = speakSentence;
+  if (addBtn) addBtn.onclick = addSentence;
+  if (importBtn) importBtn.onclick = importCSV;
+  if (deleteAllBtn) deleteAllBtn.onclick = deleteAllSentences;
 }
 
 // 2. 현재 선택된 문장 화면 표시
@@ -50,11 +58,11 @@ function displaySentence() {
   if (sentences.length === 0) {
     sentenceEl.innerText = "문장이 없습니다.";
     meaningEl.innerText = "";
-    if(speakBtn) speakBtn.disabled = true; // 음성 버튼 비활성화
+    if (speakBtn) speakBtn.disabled = true;
     return;
   }
 
-  if(speakBtn) speakBtn.disabled = false; // 음성 버튼 활성화
+  if (speakBtn) speakBtn.disabled = false;
 
   sentenceEl.innerText = sentences[currentIndex].english;
   meaningEl.innerText = sentences[currentIndex].korean;
@@ -85,16 +93,14 @@ function loadVoices() {
   availableVoices = speechSynthesis.getVoices();
 }
 
-// 브라우저 음성 로드 이벤트 등록 (통합)
 if (speechSynthesis.onvoiceschanged !== undefined) {
-    speechSynthesis.onvoiceschanged = function () {
-        loadVoices();
-        displaySentence(); // 음성이 바뀌면 화면도 다시 그림
-    };
-} else {
+  speechSynthesis.onvoiceschanged = function () {
     loadVoices();
+    displaySentence();
+  };
+} else {
+  loadVoices();
 }
-
 
 // 6. 음성 읽어주기 함수
 function speakSentence() {
@@ -104,7 +110,7 @@ function speakSentence() {
   const text = sentenceEl.textContent;
   if (!text || text === "문장이 없습니다.") return;
 
-  speechSynthesis.cancel(); // 이전 재생 중단
+  speechSynthesis.cancel();
 
   if (availableVoices.length === 0) {
     availableVoices = speechSynthesis.getVoices();
@@ -112,7 +118,6 @@ function speakSentence() {
 
   const utterance = new SpeechSynthesisUtterance(text);
 
-  // 영어 음성 필터링
   const englishVoices = availableVoices.filter(
     voice => voice.lang.toLowerCase().startsWith("en")
   );
@@ -120,7 +125,6 @@ function speakSentence() {
   let selectedVoice = null;
 
   if (englishVoices.length > 0) {
-    // 우선순위: 여성을 선호하지만, 없으면 첫 번째 영어 음성
     selectedVoice =
       englishVoices.find(v => v.name.toLowerCase().includes("female")) ||
       englishVoices.find(v =>
@@ -130,7 +134,6 @@ function speakSentence() {
       ) ||
       englishVoices[0];
   } else if (availableVoices.length > 0) {
-    // 영어 전용 음성이 없으면 언어 코드가 en인 아무 음성이나 선택
     selectedVoice = availableVoices.find(v => v.lang.toLowerCase().startsWith("en"));
   }
 
@@ -138,11 +141,10 @@ function speakSentence() {
     utterance.voice = selectedVoice;
     utterance.lang = selectedVoice.lang;
   } else {
-    // 음성을 전혀 못 찾으면 최후의 보루로 en-US 강제
     utterance.lang = "en-US";
   }
 
-  utterance.rate = 0.95; // 재생 속도 조절
+  utterance.rate = 0.95;
   utterance.pitch = 1.0;
 
   speechSynthesis.speak(utterance);
@@ -166,20 +168,19 @@ function addSentence() {
   // 배열에 새 문장 추가
   sentences.push({ english, korean });
 
-// 🔥 브라우저 저장소에 저장!
+  // 브라우저 저장소에 저장
   saveToStorage();
 
   // 목록 및 메인 화면 갱신
   renderList();
   displaySentence();
 
+  // 입력창 초기화
   englishInput.value = "";
   koreanInput.value = "";
-  
-  // 성공 메시지 살짝 표시 (선택사항)
 }
 
-// 8. 저장된 문장 목록 렌더링 (CSS 클래스 업데이트)
+// 8. 저장된 문장 목록 렌더링
 function renderList() {
   const list = document.getElementById("sentenceList");
   if (!list) return;
@@ -191,7 +192,6 @@ function renderList() {
 
   let html = "";
 
-  // 렌더링 성능을 위해 인덱스를 reverse로 돌리는 대신, 그냥 인덱스를 그대로 전달
   sentences.forEach((item, index) => {
     html += `
     <div class="list-item">
@@ -205,11 +205,10 @@ function renderList() {
   list.innerHTML = html;
 }
 
-// 9. 특정 문장 삭제
+// 9. 특정 문장 삭제 (오류 수정 완료)
 function deleteSentence(index) {
   sentences.splice(index, 1);
 
-  // 🔥 변경사항 저장!
   saveToStorage();
 
   if (currentIndex >= sentences.length) {
@@ -219,7 +218,6 @@ function deleteSentence(index) {
   renderList();
   displaySentence();
 }
-
 
 // 10. 문장 전체 삭제
 function deleteAllSentences() {
@@ -232,14 +230,13 @@ function deleteAllSentences() {
   sentences = [];
   currentIndex = 0;
 
-  // 🔥 변경사항 저장 (localStorage 초기화)
   saveToStorage();
 
   renderList();
   displaySentence();
 }
 
-// 11. CSV 파일 불러오기
+// 11. CSV 파일 불러오기 (중복 코드 제거 완료)
 function importCSV() {
   const fileInput = document.getElementById("csvFile");
   if (!fileInput || !fileInput.files[0]) {
@@ -251,13 +248,11 @@ function importCSV() {
   const reader = new FileReader();
 
   reader.onload = function (e) {
-    // 텍스트를 줄 단위로 나눔
-    const rows = e.target.result.split(/\r?\n/); // Windows/Unix 줄바꿈 모두 대응
+    const rows = e.target.result.split(/\r?\n/);
 
     rows.forEach(row => {
-      if (!row) return; // 빈 줄 건너뛰기
-      
-      // 쉼표로 나눔
+      if (!row) return;
+
       const cols = row.split(",");
 
       if (cols.length >= 2) {
@@ -270,22 +265,10 @@ function importCSV() {
       }
     });
 
-// ... CSV 변환 로직 ...
-    
-    // 🔥 CSV로 추가된 문장들 저장!
     saveToStorage();
-
     renderList();
     displaySentence();
 
-    fileInput.value = "";
-    alert("CSV 업로드가 완료되었습니다.");
-  };
-    
-    renderList();
-    displaySentence();
-
-    // 파일 선택창 초기화
     fileInput.value = "";
     alert("CSV 업로드가 완료되었습니다.");
   };
@@ -293,5 +276,5 @@ function importCSV() {
   reader.readAsText(file);
 }
 
-// 최초 화면 실행 (DOM이 로드된 후 실행되도록 이벤트 리스너 사용)
+// HTML 문서가 준비되면 초기화 실행
 document.addEventListener("DOMContentLoaded", init);
