@@ -166,11 +166,13 @@ function addSentence() {
   // 배열에 새 문장 추가
   sentences.push({ english, korean });
 
+// 🔥 브라우저 저장소에 저장!
+  saveToStorage();
+
   // 목록 및 메인 화면 갱신
   renderList();
   displaySentence();
 
-  // 입력창 초기화
   englishInput.value = "";
   koreanInput.value = "";
   
@@ -207,10 +209,16 @@ function renderList() {
 function deleteSentence(index) {
   sentences.splice(index, 1);
 
-  // 삭제 후 현재 인덱스가 배열 크기를 넘어서면 0으로 초기화
+  // 🔥 변경사항 저장!
+  saveToStorage();
+
   if (currentIndex >= sentences.length) {
     currentIndex = 0;
   }
+
+  renderList();
+  displaySentence();
+}
 
   renderList();
   displaySentence();
@@ -226,6 +234,9 @@ function deleteAllSentences() {
 
   sentences = [];
   currentIndex = 0;
+
+  // 🔥 변경사항 저장 (localStorage 초기화)
+  saveToStorage();
 
   renderList();
   displaySentence();
@@ -262,6 +273,18 @@ function importCSV() {
       }
     });
 
+// ... CSV 변환 로직 ...
+    
+    // 🔥 CSV로 추가된 문장들 저장!
+    saveToStorage();
+
+    renderList();
+    displaySentence();
+
+    fileInput.value = "";
+    alert("CSV 업로드가 완료되었습니다.");
+  };
+    
     renderList();
     displaySentence();
 
