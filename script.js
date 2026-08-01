@@ -146,7 +146,7 @@ function renderList(){
         html += `
         <div class="list-item">
 
-            <div class="jp">
+            <div class="US">
                 ${item.english}
             </div>
 
