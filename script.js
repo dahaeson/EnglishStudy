@@ -70,34 +70,37 @@ function speakSentence() {
 
     const voices = speechSynthesis.getVoices();
 
-    // 영어 음성만 추출
+    // 1. 영어 음성만 추출 ("ja" -> "en"으로 수정)
     const englishVoices = voices.filter(
-        voice => voice.lang.startsWith("ja")
+        voice => voice.lang.startsWith("en")
     );
 
     console.log("영어 음성 목록:", englishVoices);
 
-    // 여성 음성 우선 선택
+    // 2. 여성 영어 음성(Samantha, Google US English 등) 우선 선택
     let selectedVoice =
         englishVoices.find(v =>
             v.name.toLowerCase().includes("female")
         ) ||
         englishVoices.find(v =>
-            v.name.includes("Kyoko")
+            v.name.includes("Samantha") || 
+            v.name.includes("Google US English") || 
+            v.name.includes("Karen") || 
+            v.name.includes("Victoria")
         ) ||
-        englishVoices[0];
+        englishVoices[0]; // 조건에 맞는 음성이 없으면 첫 번째 영어 음성 사용
 
     if (selectedVoice) {
         utterance.voice = selectedVoice;
     }
 
-    utterance.lang = "ja-JP";
+    // 3. 언어 설정을 일본어(ja-JP)에서 미국 영어(en-US)로 수정
+    utterance.lang = "en-US";
     utterance.rate = 0.95;
-    utterance.pitch = 1.3; // 높을수록 여성 느낌
+    utterance.pitch = 1.3; // 여성 느낌을 내기 위해 피치를 유지
 
     speechSynthesis.speak(utterance);
 }
-
 function addSentence(){
 
     const english =
