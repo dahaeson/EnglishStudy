@@ -1,201 +1,193 @@
-// ===============================
+// ===================================
 // English Study
-// Version 1.0
-// ===============================
+// Version 1
+// ===================================
 
 // 문장 저장 배열
+let sentences = [];
 
-let sentences = [
-
-    {
-        en:"Hello.",
-        ko:"안녕하세요."
-    }
-
-];
-
-// 현재 위치
-
+// 현재 문장 번호
 let currentIndex = 0;
 
+const englishInput =
+document.getElementById("englishInput");
 
-// HTML 요소
+const koreanInput =
+document.getElementById("koreanInput");
 
-const english =
-document.getElementById("english");
+const englishSentence =
+document.getElementById("englishSentence");
 
-const korean =
-document.getElementById("korean");
+const koreanSentence =
+document.getElementById("koreanSentence");
 
-const input =
-document.getElementById("sentenceInput");
-
-const progressBar =
-document.getElementById("progressBar");
-
-const progressText =
-document.getElementById("progressText");
-
-
-// 화면 표시
-
+const addSentenceBtn =
+document.getElementById("addSentenceBtn");
 function showSentence(){
 
-    english.textContent =
-    sentences[currentIndex].en;
+    if(sentences.length===0){
 
-    korean.textContent =
-    sentences[currentIndex].ko;
+        englishSentence.innerHTML =
+        "영어 문장을 추가하세요.";
 
-    updateProgress();
-
-}
-
-
-// 진행률
-
-function updateProgress(){
-
-    progressText.textContent =
-    `${currentIndex+1} / ${sentences.length}`;
-
-    progressBar.style.width =
-    ((currentIndex+1)/sentences.length*100)+"%";
-
-}
-
-
-// 입력창 읽기
-
-function loadInput(){
-
-    const lines =
-    input.value.trim().split("\n");
-
-    sentences=[];
-
-    lines.forEach(line=>{
-
-        const parts=line.split("|");
-
-        if(parts.length==2){
-
-            sentences.push({
-
-                en:parts[0].trim(),
-
-                ko:parts[1].trim()
-
-            });
-
-        }
-
-    });
-
-    if(sentences.length==0){
-
-        alert("문장을 입력해주세요.");
+        koreanSentence.innerHTML =
+        "";
 
         return;
 
     }
 
-    currentIndex=0;
+    englishSentence.innerHTML =
+    sentences[currentIndex].english;
+
+    koreanSentence.innerHTML =
+    sentences[currentIndex].korean;
+
+}
+
+addSentenceBtn.onclick=function(){
+
+    const english =
+    englishInput.value.trim();
+
+    const korean =
+    koreanInput.value.trim();
+
+    if(english==="" || korean===""){
+
+        alert("영어와 한국어를 입력하세요.");
+
+        return;
+
+    }
+
+    sentences.push({
+
+        english:english,
+
+        korean:korean
+
+    });
+
+    currentIndex =
+    sentences.length-1;
+
+    englishInput.value="";
+
+    koreanInput.value="";
+
+    showSentence();
+
+};
+function previousSentence(){
+
+    if(sentences.length===0)
+        return;
+
+    currentIndex--;
+
+    if(currentIndex<0){
+
+        currentIndex=
+        sentences.length-1;
+
+    }
+
+    showSentence();
+
+}
+function previousSentence(){
+
+    if(sentences.length===0)
+        return;
+
+    currentIndex--;
+
+    if(currentIndex<0){
+
+        currentIndex=
+        sentences.length-1;
+
+    }
+
+    showSentence();
+
+}
+function nextSentence(){
+
+    if(sentences.length===0)
+        return;
+
+    currentIndex++;
+
+    if(currentIndex>=sentences.length){
+
+        currentIndex=0;
+
+    }
 
     showSentence();
 
 }
 
+function randomSentence(){
 
-// 다음
+    if(sentences.length===0)
+        return;
 
-document
-.getElementById("nextBtn")
-.onclick=function(){
-
-    if(currentIndex<sentences.length-1){
-
-        currentIndex++;
-
-        showSentence();
-
-    }
-
-};
-
-
-// 이전
-
-document
-.getElementById("prevBtn")
-.onclick=function(){
-
-    if(currentIndex>0){
-
-        currentIndex--;
-
-        showSentence();
-
-    }
-
-};
-
-
-// 랜덤
-
-document
-.getElementById("randomBtn")
-.onclick=function(){
-
-    currentIndex=
+    currentIndex =
     Math.floor(
-        Math.random()*sentences.length
+
+        Math.random()
+        *sentences.length
+
     );
 
     showSentence();
 
-};
+}
 
+// ==========================
+// LocalStorage 저장
+// ==========================
 
-// TTS
+function saveData(){
 
-function speakEnglish(text) {
+    localStorage.setItem(
 
-    speechSynthesis.cancel();
+        "englishStudy",
 
-    const utter = new SpeechSynthesisUtterance(text);
+        JSON.stringify(sentences)
 
-    const voices = speechSynthesis.getVoices();
+    );
 
-    console.log(voices); // 확인용
+}
 
-    // 가장 좋은 영어 음성 찾기
-    let voice =
-        voices.find(v => v.name.includes("Jenny")) ||
-        voices.find(v => v.name.includes("Aria")) ||
-        voices.find(v => v.name.includes("Google US English")) ||
-        voices.find(v => v.lang === "en-US") ||
-        voices.find(v => v.lang.startsWith("en"));
+// ==========================
+// LocalStorage 불러오기
+// ==========================
 
-    if (voice) {
-        utter.voice = voice;
-        console.log("사용 음성:", voice.name);
+function loadData(){
+
+    const data =
+
+    localStorage.getItem(
+
+        "englishStudy"
+
+    );
+
+    if(data){
+
+        sentences =
+
+        JSON.parse(data);
+
     }
 
-    utter.lang = "en-US";
-    utter.rate = 0.9;
-    utter.pitch = 1;
-
-    speechSynthesis.speak(utter);
 }
 
 
-// 저장 버튼을 누르면 입력창 읽기
 
-document.getElementById("ttsBtn").onclick = () => {
-    speakEnglish(sentences[currentIndex].en);
-};
 
-// 시작
 
-showSentence();
