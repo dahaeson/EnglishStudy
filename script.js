@@ -63,22 +63,23 @@ addSentenceBtn.onclick=function(){
 
     sentences.push({
 
-        english:english,
+    english:english,
 
-        korean:korean
+    korean:korean
 
-    });
+});
 
-    currentIndex =
-    sentences.length-1;
+currentIndex =
+sentences.length-1;
 
-    englishInput.value="";
+englishInput.value="";
 
-    koreanInput.value="";
+koreanInput.value="";
 
-    showSentence();
+saveData();
 
-};
+showSentence();
+    
 function previousSentence(){
 
     if(sentences.length===0)
