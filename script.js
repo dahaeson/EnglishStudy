@@ -1,3 +1,5 @@
+console.log(addSentenceBtn);
+
 // ===================================
 // English Study
 // Version 1
