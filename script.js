@@ -1,5 +1,5 @@
-// 기본 문장 데이터
-let sentences = [
+// 기본 초기 데이터
+const defaultSentences = [
   {
     english: "Reading outdoors felt a little awkward at first",
     korean: "처음에는 야외에서 책을 읽는 것이 좀 어색했다.."
@@ -14,6 +14,13 @@ let sentences = [
   }
 ];
 
+// 브라우저 저장소(localStorage)에서 불러오고, 없으면 기본 데이터 사용
+let sentences = JSON.parse(localStorage.getItem("mySentences")) || defaultSentences;
+
+// 데이터를 저장소에 보관하는 전용 함수 추가
+function saveToStorage() {
+  localStorage.setItem("mySentences", JSON.stringify(sentences));
+}
 let currentIndex = 0;
 let availableVoices = [];
 
