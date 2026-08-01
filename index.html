@@ -1,135 +1,112 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Study</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+<title>영어 문장 암기</title>
 
-    <!-- XLSX 라이브러리 -->
-    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <div class="container">
 
-    <!-- =========================
-            HEADER
-    ========================== -->
+    <div class="header">
+        <h1>🇯🇵 영어 문장 암기</h1>
+        <p>문장 · 뜻 · 영어 음성</p>
+    </div>
 
-    <header class="header">
+    <!-- 학습 카드 -->
+    <div class="card">
 
-        <h1>📗 English Study</h1>
+        <div id="sentence" class="sentence"></div>
 
-        <p>영어 문장 암기</p>
+        <div id="meaning" class="meaning"></div>
 
-    </header>
+        <div class="button-group">
 
-    <!-- =========================
-            DATE
-    ========================== -->
+            <button onclick="speakSentence()">
+                🔊 듣기
+            </button>
 
-    <section class="date-box">
+            <button onclick="nextSentence()">
+                다음 문장
+            </button>
 
-        <label>📅 날짜</label>
+            <button onclick="randomSentence()">
+                랜덤
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- 문장 추가 -->
+    <div class="card">
+
+        <h2>✏️ 문장 추가</h2>
 
         <input
-            type="date"
-            id="studyDate">
+            type="text"
+            id="newJapanese"
+            placeholder="영어 문장">
 
-    </section>
+        <input
+            type="text"
+            id="newKorean"
+            placeholder="한국어 뜻">
 
-    <!-- =========================
-            INPUT
-    ========================== -->
-
-    <section class="input-card">
-
-        <h2>영어 문장</h2>
-
-        <textarea
-            id="englishInput"
-            placeholder="예) I have to study."></textarea>
-
-        <h2>한국어 뜻</h2>
-
-        <textarea
-            id="koreanInput"
-            placeholder="예) 나는 공부해야 한다."></textarea>
-
-        <button
-            id="addSentenceBtn">
-
-            ➕ 문장 추가
-
+        <button onclick="addSentence()">
+            문장 저장
         </button>
 
-    </section>
+    </div>
 
-    <!-- =========================
-            XLSX
-    ========================== -->
+    <!-- CSV 업로드 -->
+    <div class="card">
 
-    <section class="upload-card">
+        <h2>📂 CSV 업로드</h2>
 
-        <h2>📂 Excel 업로드</h2>
+        <p class="guide">
+            형식 : 영어,뜻
+        </p>
 
         <input
             type="file"
-            id="excelFile"
-            accept=".xlsx">
+            id="csvFile"
+            accept=".csv">
 
-    </section>
+        <button onclick="importCSV()">
+            CSV 가져오기
+        </button>
 
-    <!-- =========================
-            VOICE
-    ========================== -->
+    </div>
 
-    <section class="voice-card">
+    <!-- 저장 목록 -->
+    <div class="card">
 
-        <h2>🎙 영어 음성</h2>
+        <div class="list-header">
 
-        <select id="voiceSelect">
+            <h2>📖 저장된 문장</h2>
 
-            <option value="usFemale">
+            <button
+                class="danger"
+                onclick="deleteAllSentences()">
 
-                🇺🇸 미국 여자
+                전체 삭제
 
-            </option>
-
-            <option value="ukFemale">
-
-                🇬🇧 영국 여자
-
-            </option>
-
-        </select>
-
-    </section>
-
-    <!-- =========================
-            STUDY CARD
-    ========================== -->
-
-    <section class="study-card">
-
-        <div
-            id="englishSentence"
-            class="english">
-
-            Hello.
+            </button>
 
         </div>
 
-        <div
-            id="koreanSentence"
-            class="korean">
+        <div id="sentenceList"></div>
 
-            안녕하세요.
+    </div>
 
-        </div>
+</div>
 
-    </section>
+<script src="script.js"></script>
+
+</body>
+</html>
