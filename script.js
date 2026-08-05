@@ -166,8 +166,21 @@ function addSentence() {
   }
 
   // 배열에 새 문장 추가
-  sentences.push({ english, korean });
+sentences.push({
+    english: english,
+    korean: korean
+});
 
+saveData();
+  sentences.splice(currentIndex,1);
+
+saveData();
+
+showSentence();
+
+showSentence();
+
+  
   // 브라우저 저장소에 저장
   saveToStorage();
 
@@ -278,3 +291,38 @@ function importCSV() {
 
 // HTML 문서가 준비되면 초기화 실행
 document.addEventListener("DOMContentLoaded", init);
+
+const STORAGE_KEY = "EnglishStudyData";
+
+function saveData() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(sentences));
+}
+
+function loadData() {
+
+    const saved = localStorage.getItem(STORAGE_KEY);
+
+    if(saved){
+
+        sentences = JSON.parse(saved);
+
+    }else{
+
+        sentences = [];
+
+    }
+
+    currentIndex = 0;
+
+    showSentence();
+
+}
+
+
+window.onload = function(){
+
+    loadData();
+
+};
+
+
